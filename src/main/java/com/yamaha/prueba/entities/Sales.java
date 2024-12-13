@@ -17,33 +17,33 @@ public class Sales {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long ventaId;
+    private Long saleId;
 
     @Column(nullable = false)
-    private LocalDate fecha;
+    private LocalDate date;
 
     @Column(nullable = false, unique = true, length = 20)
-    private String numeroFactura;
+    private String InvoiceNumber;
 
     @Column(nullable = false, length = 50)
-    private String ciudad;
+    private String city;
 
     @Column(nullable = false, length = 100)
-    private String tienda;
+    private String store;
 
-    @Column(nullable = false, precision = 12, scale = 2)
-    private BigDecimal precio;
+    @Column(nullable = false)
+    private Double price;
 
     @ManyToOne
     @JoinColumn(name = "vehiculo_id", nullable = false)
-    private Vehicle vehiculo;
+    private Vehicle vehicle;
 
     @ManyToOne
     @JoinColumn(name = "cliente_id", nullable = false)
-    private Client cliente;
+    private Client client;
 
     @Column(nullable = false, length = 100)
-    private String vendedor;
+    private String salesPerson;
 
     // Getters and Setters
 }
