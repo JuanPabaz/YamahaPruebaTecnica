@@ -9,6 +9,7 @@ import com.yamaha.prueba.repositories.VehicleRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VehicleService {
@@ -28,6 +29,10 @@ public class VehicleService {
         }
         if (vehicleRequestDTO.getModel() == null || vehicleRequestDTO.getModel().isEmpty()){
             throw new BadCreateRequest("El model no puede estar vacio");
+        }
+        Optional<Vehicle> optionalVehicleEngineNumber = vehicleRepository.findByEngineNumber(vehicleRequestDTO.getEngineNumber());
+        if (optionalVehicleEngineNumber.isPresent()) {
+            throw new BadCreateRequest("Ya existe un vehiculo con ese numero de motor");
         }
         if (vehicleRequestDTO.getCylinderCapacity() == null){
             throw new BadCreateRequest("El cilindraje no puede estar vacio");
