@@ -2,13 +2,16 @@ package com.yamaha.prueba.service;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
+import com.yamaha.prueba.dto.SalesAnalysisDTO;
 import com.yamaha.prueba.dto.SalesRequestDTO;
 import com.yamaha.prueba.dto.SalesResponseDTO;
+import com.yamaha.prueba.dto.VehicleResponseDTO;
 import com.yamaha.prueba.entities.Client;
 import com.yamaha.prueba.entities.Sales;
 import com.yamaha.prueba.entities.Vehicle;
 import com.yamaha.prueba.exceptions.BadCreateRequest;
 import com.yamaha.prueba.maps.IMapSales;
+import com.yamaha.prueba.maps.IMapVehicle;
 import com.yamaha.prueba.repositories.ClientRepository;
 import com.yamaha.prueba.repositories.SalesRepository;
 import com.yamaha.prueba.repositories.VehicleRepository;
@@ -18,6 +21,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -31,11 +35,14 @@ public class SalesService {
 
     private final IMapSales mapSales;
 
-    public SalesService(SalesRepository salesRepository, VehicleRepository vehicleRepository, ClientRepository clientRepository, IMapSales mapSales) {
+    private final IMapVehicle mapVehicle;
+
+    public SalesService(SalesRepository salesRepository, VehicleRepository vehicleRepository, ClientRepository clientRepository, IMapSales mapSales, IMapVehicle mapVehicle) {
         this.salesRepository = salesRepository;
         this.vehicleRepository = vehicleRepository;
         this.clientRepository = clientRepository;
         this.mapSales = mapSales;
+        this.mapVehicle = mapVehicle;
     }
 
     public SalesResponseDTO saveSale(SalesRequestDTO salesRequestDTO) {
@@ -110,4 +117,50 @@ public class SalesService {
         }
         return mapSales.mapSalesList(salesRepository.saveAll(salesList));
     }
+
+    public List<SalesAnalysisDTO> salesAnalysis(){
+        List<Client> clientList = salesRepository.findClientsWithMoreThanTwoSales();
+        List<SalesAnalysisDTO> salesAnalysisDTOList = new ArrayList<>();
+
+        for (Client client : clientList) {
+            SalesAnalysisDTO salesAnalysisDTO = new SalesAnalysisDTO();
+            List<VehicleResponseDTO> vehicleResponseDTOList = mapVehicle
+                    .mapVehicleList(client.getSales().stream()
+                    .map(Sales::getVehicle) // Obtener el vehículo de cada venta
+                    .distinct() // Evitar duplicados
+                    .toList());
+            salesAnalysisDTO.setVehicles(vehicleResponseDTOList);
+            salesAnalysisDTO.setName(client.getNames());
+            salesAnalysisDTO.setIdCliente(client.getClientId());
+            salesAnalysisDTO.setLastName(client.getLastName());
+
+            List<Sales> salesList = client.getSales();
+            double periodicity = calculateSalesPeriodicity(salesList);
+            salesAnalysisDTO.setPeriodicity(periodicity);
+
+            LocalDate lastSaleDate = salesList.stream()
+                    .max(Comparator.comparing(Sales::getDate))
+                    .get()
+                    .getDate();
+            LocalDate nextSaleEstimate = lastSaleDate.plusDays((long) periodicity);
+            salesAnalysisDTO.setNextSaleEstimate(nextSaleEstimate);
+
+            salesAnalysisDTOList.add(salesAnalysisDTO);
+        }
+        return salesAnalysisDTOList;
+    }
+
+    private double calculateSalesPeriodicity(List<Sales> salesList) {
+        salesList.sort(Comparator.comparing(Sales::getDate));
+
+        long totalDays = 0;
+        for (int i = 1; i < salesList.size(); i++) {
+            LocalDate previousDate = salesList.get(i - 1).getDate();
+            LocalDate currentDate = salesList.get(i).getDate();
+            totalDays += java.time.temporal.ChronoUnit.DAYS.between(previousDate, currentDate);
+        }
+
+        return (double) totalDays / (salesList.size() - 1);
+    }
+
 }

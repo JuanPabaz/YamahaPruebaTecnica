@@ -45,4 +45,9 @@ public class SalesController {
             throw new RuntimeException(e);
         }
     }
+
+    @GetMapping("/analysis")
+    public ResponseEntity<?> getSalesAnalysis() {
+        return ResponseEntity.ok(salesService.salesAnalysis());
+    }
 }
