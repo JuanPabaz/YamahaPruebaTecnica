@@ -1,5 +1,7 @@
 package com.yamaha.prueba.service;
 
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 import com.yamaha.prueba.dto.SalesRequestDTO;
 import com.yamaha.prueba.dto.SalesResponseDTO;
 import com.yamaha.prueba.entities.Client;
@@ -12,6 +14,10 @@ import com.yamaha.prueba.repositories.SalesRepository;
 import com.yamaha.prueba.repositories.VehicleRepository;
 import org.springframework.stereotype.Service;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -71,5 +77,37 @@ public class SalesService {
 
     public List<SalesResponseDTO> getAllSales() {
         return mapSales.mapSalesList(salesRepository.findAll());
+    }
+
+    public List<SalesResponseDTO> importSalesFromCsv(String filePath) throws IOException, CsvValidationException {
+        List<Sales> salesList = new ArrayList<>();
+        try (CSVReader csvReader = new CSVReader(new FileReader(filePath))) {
+            String[] values;
+            csvReader.readNext();
+            while ((values = csvReader.readNext()) != null) {
+                Sales sale = new Sales();
+                sale.setDate(LocalDate.parse(values[0]));  // Asumiendo que la fecha es válida
+                sale.setInvoiceNumber(values[1]);
+                sale.setCity(values[2]);
+                sale.setStore(values[3]);
+                sale.setPrice(Double.parseDouble(values[4]));
+
+                // Obtener el vehículo relacionado
+                Vehicle vehicle = vehicleRepository.findByEngineNumber(values[5])
+                        .orElseThrow(() -> new BadCreateRequest("Vehículo con número de motor no encontrado"));
+
+                // Obtener el cliente relacionado
+                Client client = clientRepository.findById(Long.parseLong(values[6]))  // Asumiendo que el ID del cliente está en la columna 6
+                        .orElseThrow(() -> new BadCreateRequest("Cliente con ID  no encontrado"));
+
+                // Establecer el vehículo y el cliente en la venta
+                sale.setVehicle(vehicle);
+                sale.setClient(client);
+                sale.setSalesPerson(values[7]);  // Vendedor
+
+                salesList.add(sale);
+            }
+        }
+        return mapSales.mapSalesList(salesRepository.saveAll(salesList));
     }
 }
