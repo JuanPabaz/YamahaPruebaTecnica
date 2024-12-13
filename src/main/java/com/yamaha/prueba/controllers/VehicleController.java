@@ -16,12 +16,12 @@ public class VehicleController {
     }
 
     @PostMapping
-    public ResponseEntity<?> registrarVehiculo(@RequestBody VehicleRequestDTO vehicleRequestDTO) {
+    public ResponseEntity<?> saveVehicle(@RequestBody VehicleRequestDTO vehicleRequestDTO) {
         return ResponseEntity.ok(vehicleService.saveVehicle(vehicleRequestDTO));
     }
 
     @GetMapping
-    public ResponseEntity<?> obtenerVehiculos() {
+    public ResponseEntity<?> getAllVehicles() {
         return ResponseEntity.ok(vehicleService.getAllVehicles());
     }
 }

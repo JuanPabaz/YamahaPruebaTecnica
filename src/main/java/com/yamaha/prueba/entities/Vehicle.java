@@ -37,8 +37,8 @@ public class Vehicle {
     @Column(nullable = false)
     private Integer yearModel;
 
-    @OneToMany(mappedBy = "vehiculo", cascade = CascadeType.ALL)
-    private List<Sales> ventas;
+    @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL)
+    private List<Sales> sales;
 
     // Getters and Setters
 }
