@@ -2,6 +2,7 @@ package com.yamaha.prueba.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.boot.autoconfigure.amqp.RabbitConnectionDetails;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -46,5 +47,7 @@ public class Client {
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
     private List<Sales> sales;
 
-    // Getters and Setters
+    @OneToOne
+    private User user;
+
 }
