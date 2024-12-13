@@ -5,7 +5,6 @@ import com.yamaha.prueba.dto.AuthResponseDTO;
 import com.yamaha.prueba.dto.RegisterRequestDTO;
 import com.yamaha.prueba.dto.UserResponseDTO;
 import com.yamaha.prueba.entities.RefreshToken;
-import com.yamaha.prueba.entities.User;
 import com.yamaha.prueba.exceptions.BadUserCredentialsException;
 import com.yamaha.prueba.exceptions.ExpiredRefreshTokenException;
 import com.yamaha.prueba.exceptions.ObjectNotFoundException;
