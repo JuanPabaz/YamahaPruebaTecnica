@@ -22,4 +22,5 @@ public class ClientResponseDTO {
     private String gender;
     private String cellPhone;
     private String email;
+    private Long idUser;
 }
