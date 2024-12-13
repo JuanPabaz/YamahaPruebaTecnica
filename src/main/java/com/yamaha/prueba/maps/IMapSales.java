@@ -18,9 +18,9 @@ public interface IMapSales {
             @Mapping(source = "city", target = "city"),
             @Mapping(source = "store", target = "store"),
             @Mapping(source = "price", target = "price"),
-            @Mapping(source = "vehicle.idVehicle", target = "idVehicle"),
-            @Mapping(source = "client.idClient", target = "idClient"),
-            @Mapping(source = "salesPersona", target = "salesPersona")
+            @Mapping(source = "vehicle.vehicleId", target = "idVehicle"),
+            @Mapping(source = "client.clientId", target = "idClient"),
+            @Mapping(source = "salesPerson", target = "salesPerson")
     })
     SalesResponseDTO mapSales(Sales sales);
 
