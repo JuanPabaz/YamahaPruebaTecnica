@@ -32,13 +32,13 @@ public class ClientService {
     public ClientResponseDTO saveClient(ClientRequestDTO clientRequestDTO) {
         User user = userRepository.findById(clientRequestDTO.getIdUser()).orElseThrow(()->new BadCreateRequest("El usuario no existe"));
 
-        if (clientRequestDTO.getCellPhone().isEmpty()) {
+        if (clientRequestDTO.getCellPhone() == null || clientRequestDTO.getCellPhone().isEmpty()) {
             throw new BadCreateRequest("El numero de celular no puede estar vacio");
         }
-        if (clientRequestDTO.getEmail().isEmpty()) {
+        if (clientRequestDTO.getEmail() == null || clientRequestDTO.getEmail().isEmpty()) {
             throw new BadCreateRequest("El email no puede estar vacio");
         }
-        if (clientRequestDTO.getAddress().isEmpty()) {
+        if (clientRequestDTO.getAddress() == null || clientRequestDTO.getAddress().isEmpty()) {
             throw new BadCreateRequest("La direccion no puede estar vacia");
         }
         if (clientRequestDTO.getDateOfBirth() == null) {
@@ -50,16 +50,16 @@ public class ClientService {
                 throw new BadCreateRequest("El usuario debe ser mayor de 18 años");
             }
         }
-        if (clientRequestDTO.getGender() == null) {
+        if (clientRequestDTO.getGender() == null || clientRequestDTO.getGender().isEmpty()) {
             throw new BadCreateRequest("El genero no puede estar vacio");
         }
-        if (clientRequestDTO.getIdentificationNumber() == null) {
+        if (clientRequestDTO.getIdentificationNumber() == null || clientRequestDTO.getIdentificationNumber().isEmpty()) {
             throw new BadCreateRequest("El numero de identification no puede estar vacio");
         }
-        if (clientRequestDTO.getNames().isEmpty()) {
+        if (clientRequestDTO.getNames() == null || clientRequestDTO.getNames().isEmpty()) {
             throw new BadCreateRequest("El nombre no puede estar vacio");
         }
-        if (clientRequestDTO.getLastName().isEmpty()) {
+        if (clientRequestDTO.getLastName() == null || clientRequestDTO.getLastName().isEmpty()) {
             throw new BadCreateRequest("Los apellidos no pueden estar vacios");
         }
         Client client = Client.builder()

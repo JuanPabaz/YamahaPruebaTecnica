@@ -39,19 +39,19 @@ public class SalesService {
         if (salesRequestDTO.getPrice() < 0) {
             throw new BadCreateRequest("El precio no es valido");
         }
-        if (salesRequestDTO.getSalesPersona().isEmpty()) {
+        if (salesRequestDTO.getSalesPerson() == null || salesRequestDTO.getSalesPerson().isEmpty()) {
             throw new BadCreateRequest("El vendedor no puede estar vacio");
         }
-        if (salesRequestDTO.getCity().isEmpty()) {
+        if (salesRequestDTO.getCity() == null || salesRequestDTO.getCity().isEmpty()) {
             throw new BadCreateRequest("La ciudad no puede estar vacia");
         }
         if (salesRequestDTO.getDate() == null) {
             throw new BadCreateRequest("La fecha no puede estar vacia");
         }
-        if (salesRequestDTO.getInvoiceNumber() == null) {
+        if (salesRequestDTO.getInvoiceNumber() == null || salesRequestDTO.getInvoiceNumber().isEmpty()) {
             throw new BadCreateRequest("El numero de factura no puede estar vacio");
         }
-        if (salesRequestDTO.getStore() == null) {
+        if (salesRequestDTO.getStore() == null || salesRequestDTO.getStore().isEmpty()) {
             throw new BadCreateRequest("La tienda no puede estar vacia");
         }
 
@@ -59,7 +59,7 @@ public class SalesService {
                 .city(salesRequestDTO.getCity())
                 .date(salesRequestDTO.getDate())
                 .client(client)
-                .salesPerson(salesRequestDTO.getSalesPersona())
+                .salesPerson(salesRequestDTO.getSalesPerson())
                 .store(salesRequestDTO.getStore())
                 .vehicle(vehicle)
                 .price(salesRequestDTO.getPrice())

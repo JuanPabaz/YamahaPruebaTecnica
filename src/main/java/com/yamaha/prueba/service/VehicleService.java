@@ -23,16 +23,16 @@ public class VehicleService {
     }
 
     public VehicleResponseDTO saveVehicle(VehicleRequestDTO vehicleRequestDTO) {
-        if (vehicleRequestDTO.getColor().isEmpty()) {
+        if (vehicleRequestDTO.getColor() == null || vehicleRequestDTO.getColor().isEmpty()) {
             throw new BadCreateRequest("El color no puede estar vacio");
         }
-        if (vehicleRequestDTO.getModel().isEmpty()){
+        if (vehicleRequestDTO.getModel() == null || vehicleRequestDTO.getModel().isEmpty()){
             throw new BadCreateRequest("El model no puede estar vacio");
         }
         if (vehicleRequestDTO.getCylinderCapacity() == null){
             throw new BadCreateRequest("El cilindraje no puede estar vacio");
         }
-        if (vehicleRequestDTO.getEngineNumber().isEmpty()){
+        if (vehicleRequestDTO.getEngineNumber() == null || vehicleRequestDTO.getEngineNumber().isEmpty()){
             throw new BadCreateRequest("El numero del motor no puede estar vacio");
         }
         if (vehicleRequestDTO.getDateOfAssembly() == null){
