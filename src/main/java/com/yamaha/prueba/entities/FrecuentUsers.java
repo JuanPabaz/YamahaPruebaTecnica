@@ -22,7 +22,7 @@ public class FrecuentUsers {
     @JoinColumn(name = "cliente_id", nullable = false)
     private Client cliente;
 
-    @Column(nullable = false, precision = 4, scale = 2)
+    @Column(nullable = false)
     private Double promedioCompraMes;
 
     @Column(nullable = false)
