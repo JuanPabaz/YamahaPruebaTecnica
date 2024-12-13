@@ -19,8 +19,7 @@ public interface IMapClient {
             @Mapping(source = "dateOfBirth", target = "dateOfBirth"),
             @Mapping(source = "gender", target = "gender"),
             @Mapping(source = "cellPhone", target = "cellPhone"),
-            @Mapping(source = "email", target = "email"),
-            @Mapping(source = "user.idUser", target = "idUser")
+            @Mapping(source = "email", target = "email")
     })
     ClientResponseDTO mapClient(Client client);
 

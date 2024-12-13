@@ -19,18 +19,14 @@ public class ClientService {
 
     private final ClientRepository clientRepository;
 
-    private final UserRepository userRepository;
-
     private final IMapClient mapClient;
 
-    public ClientService(ClientRepository clientRepository, UserRepository userRepository, IMapClient mapClient) {
+    public ClientService(ClientRepository clientRepository, IMapClient mapClient) {
         this.clientRepository = clientRepository;
-        this.userRepository = userRepository;
         this.mapClient = mapClient;
     }
 
     public ClientResponseDTO saveClient(ClientRequestDTO clientRequestDTO) {
-        User user = userRepository.findById(clientRequestDTO.getIdUser()).orElseThrow(()->new BadCreateRequest("El usuario no existe"));
 
         if (clientRequestDTO.getCellPhone() == null || clientRequestDTO.getCellPhone().isEmpty()) {
             throw new BadCreateRequest("El numero de celular no puede estar vacio");
@@ -68,7 +64,6 @@ public class ClientService {
                 .dateOfBirth(clientRequestDTO.getDateOfBirth())
                 .gender(clientRequestDTO.getGender())
                 .email(clientRequestDTO.getEmail())
-                .user(user)
                 .cellPhone(clientRequestDTO.getCellPhone())
                 .names(clientRequestDTO.getNames())
                 .lastName(clientRequestDTO.getLastName())
