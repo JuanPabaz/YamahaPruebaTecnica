@@ -3,11 +3,9 @@ package com.yamaha.prueba.service;
 import com.yamaha.prueba.dto.ClientRequestDTO;
 import com.yamaha.prueba.dto.ClientResponseDTO;
 import com.yamaha.prueba.entities.Client;
-import com.yamaha.prueba.entities.User;
 import com.yamaha.prueba.exceptions.BadCreateRequest;
 import com.yamaha.prueba.maps.IMapClient;
 import com.yamaha.prueba.repositories.ClientRepository;
-import com.yamaha.prueba.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

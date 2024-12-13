@@ -1,8 +1,6 @@
 package com.yamaha.prueba.maps;
 
-import com.yamaha.prueba.dto.SalesResponseDTO;
 import com.yamaha.prueba.dto.VehicleResponseDTO;
-import com.yamaha.prueba.entities.Sales;
 import com.yamaha.prueba.entities.Vehicle;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
