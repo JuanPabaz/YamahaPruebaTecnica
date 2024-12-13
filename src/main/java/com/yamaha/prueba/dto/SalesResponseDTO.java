@@ -21,5 +21,5 @@ public class SalesResponseDTO {
     private Double price;
     private Long idVehicle;
     private Long idClient;
-    private String salesPersona;
+    private String salesPerson;
 }
