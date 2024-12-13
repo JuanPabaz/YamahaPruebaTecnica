@@ -35,11 +35,11 @@ public class Sales {
     private Double price;
 
     @ManyToOne
-    @JoinColumn(name = "vehiculo_id", nullable = false)
+    @JoinColumn(name = "vehicle_id", nullable = false)
     private Vehicle vehicle;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id", nullable = false)
+    @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
     @Column(nullable = false, length = 100)
