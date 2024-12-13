@@ -29,13 +29,13 @@ public class Client {
     @Column(nullable = false, length = 100)
     private String lastName;
 
-    @Column(length = 255)
+    @Column()
     private String address;
 
     @Column(nullable = false)
     private LocalDate dateOfBirth;
 
-    @Column(nullable = false, length = 1)
+    @Column(nullable = false, length = 20)
     private String gender;
 
     @Column(nullable = false, length = 15)
@@ -44,10 +44,11 @@ public class Client {
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Sales> sales;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_user", referencedColumnName = "id_user")
     private User user;
 
 }
