@@ -40,5 +40,4 @@ public class Vehicle {
     @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL)
     private List<Sales> sales;
 
-    // Getters and Setters
 }

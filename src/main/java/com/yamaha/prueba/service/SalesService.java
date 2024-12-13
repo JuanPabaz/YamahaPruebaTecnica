@@ -99,18 +99,15 @@ public class SalesService {
                 sale.setStore(values[3]);
                 sale.setPrice(Double.parseDouble(values[4]));
 
-                // Obtener el vehículo relacionado
                 Vehicle vehicle = vehicleRepository.findByEngineNumber(values[5])
                         .orElseThrow(() -> new BadCreateRequest("Vehículo con número de motor no encontrado"));
 
-                // Obtener el cliente relacionado
-                Client client = clientRepository.findById(Long.parseLong(values[6]))  // Asumiendo que el ID del cliente está en la columna 6
+                Client client = clientRepository.findById(Long.parseLong(values[6]))
                         .orElseThrow(() -> new BadCreateRequest("Cliente con ID  no encontrado"));
 
-                // Establecer el vehículo y el cliente en la venta
                 sale.setVehicle(vehicle);
                 sale.setClient(client);
-                sale.setSalesPerson(values[7]);  // Vendedor
+                sale.setSalesPerson(values[7]);
 
                 salesList.add(sale);
             }
